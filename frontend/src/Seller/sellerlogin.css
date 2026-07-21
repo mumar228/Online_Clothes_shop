@@ -1,0 +1,261 @@
+/* ============================================================
+   LUME — Seller Login uslublari
+   Rasmda ko'rsatilgan register sahifasiga o'xshash, lekin
+   mustaqil klass nomlari bilan.
+   ============================================================ */
+
+:root {
+  --login-ink: #1C1B19;
+  --login-olive: #3C4A34;
+  --login-olive-dark: #2C3627;
+  --login-rust: #C9784F;
+  --login-line: #E4E1D9;
+  --login-muted: #8A8578;
+  --login-bg-input: #F7F6F2;
+  --login-error: #A6552F;
+}
+
+.lume-login-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  min-height: 100vh;
+  background: #ffffff;
+  font-family: 'Segoe UI', 'DM Sans', Arial, sans-serif;
+  color: var(--login-ink);
+}
+
+/* ---------- Chap panel ---------- */
+
+.login-left-side {
+  display: flex;
+  flex-direction: column;
+  padding: 40px clamp(24px, 6vw, 96px);
+}
+
+.login-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lume-brand-badge {
+  background: var(--login-olive);
+  color: #fff;
+  font-weight: 700;
+  font-size: 20px;
+  padding: 12px 22px;
+  border-radius: 12px;
+}
+
+.login-toggle-pill {
+  border: 1px solid var(--login-line);
+  color: var(--login-ink);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 10px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.login-toggle-pill:hover {
+  background: var(--login-ink);
+  color: #fff;
+  border-color: var(--login-ink);
+}
+
+.login-form-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.login-heading {
+  font-size: 34px;
+  font-weight: 800;
+  margin: 0 0 10px;
+  color: var(--login-ink);
+}
+
+.login-subheading {
+  font-size: 15px;
+  color: var(--login-muted);
+  margin: 0 0 28px;
+}
+
+.login-error {
+  background: rgba(166, 85, 47, 0.09);
+  border: 1px solid rgba(166, 85, 47, 0.35);
+  color: var(--login-error);
+  font-size: 13.5px;
+  padding: 11px 14px;
+  border-radius: 8px;
+  margin: 0 0 18px;
+}
+
+.login-actual-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-input-wrapper input {
+  width: 100%;
+  padding: 16px 18px;
+  font-size: 15px;
+  color: var(--login-ink);
+  background: var(--login-bg-input);
+  border: 1px solid var(--login-line);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-input-wrapper input::placeholder {
+  color: var(--login-muted);
+}
+
+.login-input-wrapper input:focus {
+  background: #EAF0FB;
+  border-color: #8FA8D6;
+  box-shadow: 0 0 0 3px rgba(143, 168, 214, 0.22);
+}
+
+.login-submit-btn {
+  margin-top: 8px;
+  padding: 17px 18px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--login-olive);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.login-submit-btn:hover:not(:disabled) {
+  background: var(--login-olive-dark);
+}
+
+.login-submit-btn:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.login-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-submit-btn:focus-visible,
+.login-toggle-pill:focus-visible,
+.login-input-wrapper input:focus-visible {
+  outline: 2px solid var(--login-rust);
+  outline-offset: 2px;
+}
+
+.login-policy-footer {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--login-muted);
+  line-height: 1.6;
+}
+
+.login-policy-footer a {
+  color: var(--login-rust);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-policy-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- O'ng panel: nuqtali to'q fon ---------- */
+
+.login-right-side {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #17160F;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+}
+
+.login-right-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 44px;
+  padding: 48px;
+  text-align: center;
+}
+
+.large-l-logo {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 46px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--login-olive);
+  border-radius: 20px;
+}
+
+.login-right-text {
+  font-size: clamp(26px, 2.6vw, 34px);
+  font-weight: 800;
+  line-height: 1.35;
+  color: #fff;
+  margin: 0;
+  max-width: 420px;
+}
+
+.login-accent-text {
+  color: var(--login-rust);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .lume-login-container {
+    grid-template-columns: 1fr;
+  }
+
+  .login-right-side {
+    order: -1;
+    min-height: 260px;
+    padding: 32px 0;
+  }
+
+  .login-right-content {
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .login-left-side {
+    padding: 32px 24px 56px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-form-box {
+    max-width: 100%;
+  }
+
+  .large-l-logo {
+    width: 80px;
+    height: 80px;
+    font-size: 36px;
+  }
+}
