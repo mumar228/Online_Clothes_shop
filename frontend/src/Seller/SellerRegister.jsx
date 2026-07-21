@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate,Link } from 'react-router-dom'; // Kabinetga avtomatik o'tish uchun
-import './SellerRegsiter.css';
+import './SellerRegister.css';
 
 const SellerRegister = () => {
   const navigate = useNavigate();
