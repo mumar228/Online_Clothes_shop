@@ -6,8 +6,8 @@ import SellerPage from './Seller/Seller.jsx';
 import SavatPage from './Savat/savat.jsx';
 import ProfilsePage from './Profile/Profile.jsx';
 import AuthPage from './Auth/register.jsx';
-import SellerRegister from './Seller/Sellerregsiter.jsx';
-import SellerLogin from './Seller/Sellerlogin.jsx';
+import SellerRegister from './Seller/SellerRegsiter.jsx';
+import SellerLogin from './Seller/SellerLogin.jsx';
 
 const App = () => {
   return (

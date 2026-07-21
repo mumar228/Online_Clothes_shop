@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './sellerlogin.css';
+import './SellerLogin.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 const API_URL = 'http://localhost:3008';
