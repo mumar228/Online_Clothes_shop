@@ -53,3 +53,20 @@ export function adminOnly(req, res, next) {
   }
   next();
 }
+
+export async function getMe(req, res) {
+  try {
+    const seller = await Seller.findById(req.seller.id).select("-password");
+
+    if (!seller) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Foydalanuvchi topilmadi" });
+    }
+
+    res.status(200).json({ success: true, seller });
+  } catch (err) {
+    console.error("❌ getMe xatosi:", err.message);
+    res.status(500).json({ success: false, message: "Server xatosi" });
+  }
+}

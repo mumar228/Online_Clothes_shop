@@ -1,34 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Profile.css';
 import { Link } from 'react-router-dom';
-
-const ORDERS = [
-  {
-    id: '#2481',
-    name: 'Long Wool Coat',
-    date: '3-iyul, 2026',
-    price: '890 000 so\'m',
-    status: 'done',
-    swatch: '#4a5a3f',
-  },
-  {
-    id: '#2469',
-    name: 'Structured Blazer',
-    date: '28-iyun, 2026',
-    price: '620 000 so\'m',
-    status: 'transit',
-    swatch: '#d9cdb5',
-  },
-  {
-    id: '#2440',
-    name: 'Silk Shirt',
-    date: '14-iyun, 2026',
-    price: '960 000 so\'m',
-    status: 'done',
-    swatch: '#24231f',
-  },
-];
-
 function Switch({ defaultOn = false }) {
   const [on, setOn] = useState(defaultOn);
   return (
@@ -43,16 +15,82 @@ function Switch({ defaultOn = false }) {
   );
 }
 
-export default function ProfilePage({ user = {
-  firstName: 'Malika',
-  lastName: 'Yusupova',
-  email: 'malika.yusupova@gmail.com',
-  phone: '+998 90 123 45 67',
-  memberSince: 2022,
-  orderCount: 12,
-  favoriteCount: 7,
-  address: "Toshkent sh., Chilonzor tumani, Bunyodkor ko'chasi, 12-uy",
-} }) {
+// Backenddan kelgan "name"ni ism va familiyaga ajratib beruvchi yordamchi funksiya
+function splitName(fullName = '') {
+  const parts = fullName.trim().split(' ');
+  return {
+    firstName: parts[0] || 'Foydalanuvchi',
+    lastName: parts.slice(1).join(' ') || '',
+  };
+}
+
+export default function ProfilePage() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        setError('Tizimga kirmagansiz');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:3008/user/getme', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error('Ma\'lumotlarni yuklashda xatolik yuz berdi');
+        }
+
+        const data = await res.json();
+        const { firstName, lastName } = splitName(data.name);
+
+        setUser({
+          firstName,
+          lastName,
+          email: data.email,
+          phone: data.phone || 'Kiritilmagan',
+          memberSince: data.createdAt ? new Date(data.createdAt).getFullYear() : '—',
+          orderCount: data.orderCount ?? 0,
+          favoriteCount: data.favoriteCount ?? 0,
+          address: data.address || 'Manzil kiritilmagan',
+        });
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProfile();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="lume-root">
+        <p style={{ padding: '40px', textAlign: 'center' }}>Yuklanmoqda...</p>
+      </div>
+    );
+  }
+
+  if (error || !user) {
+    return (
+      <div className="lume-root">
+        <p style={{ padding: '40px', textAlign: 'center' }}>
+          {error || 'Foydalanuvchi topilmadi'}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="lume-root">
       <nav className="lume-nav">
@@ -153,22 +191,6 @@ export default function ProfilePage({ user = {
             </div>
           </section>
 
-          <section className="section">
-            <h2>So'nggi buyurtmalar</h2>
-            {ORDERS.map((order) => (
-              <div className="order-row" key={order.id}>
-                <div className="swatch" style={{ background: order.swatch }} />
-                <div className="order-info">
-                  <h3>{order.name}</h3>
-                  <div className="order-meta">Buyurtma {order.id} &middot; {order.date}</div>
-                </div>
-                <span className={`order-status ${order.status === 'done' ? 'status-done' : 'status-transit'}`}>
-                  {order.status === 'done' ? 'Yetkazildi' : "Yo'lda"}
-                </span>
-                <div className="order-price">{order.price}</div>
-              </div>
-            ))}
-          </section>
 
           <section className="section">
             <h2>Sozlamalar</h2>

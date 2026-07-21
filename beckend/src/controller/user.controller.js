@@ -70,3 +70,12 @@ export const login = async (req, res, next) => {
 		next(error)
 	}
 }
+
+export const getMe = async (req, res, next) => {
+	try {
+		const user = await userService.getUser(Number(req.seller.id));
+		res.json(user);
+	} catch (error) {
+		next(error);
+	}
+};

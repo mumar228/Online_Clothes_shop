@@ -65,18 +65,31 @@ const SellerLogin = () => {
         <div className="blook-header">
           <a href="/" className="blook-logo">Lume</a>
           <button className="blook-toggle-top" onClick={() => setIsLogin(!isLogin)}>
-            Log in
+            {isLogin ? "Ro'yxatdan o'tish" : 'Log in'}
           </button>
         </div>
 
         <div className="blook-form-container">
           <h2 className="blook-title">
-            Sotuvchi kabinetiga kirish
+            {isLogin ? 'Sotuvchi kabinetiga kirish' : "Sotuvchi sifatida ro'yxatdan o'tish"}
           </h2>
 
           {error && <p className="blook-error">{error}</p>}
 
           <form onSubmit={handleSubmit} className="blook-form">
+
+            {!isLogin && (
+              <div className="blook-input-wrapper">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Ism"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            )}
 
             <div className="blook-input-wrapper">
               <input

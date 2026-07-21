@@ -1,12 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
 
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
 
 :root {
     --bg-color: #f4eee3;
@@ -200,59 +198,174 @@
     border-color: var(--accent-green);
 }
 
-.lume-products-grid {
+/* ==========================================================================
+   YANGI UZUM MARKET STILIDAGI GRID VA CARDLAR
+   ========================================================================== */
+
+.uzum-products-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-}
-
-.lume-product-card {
-    text-decoration: none;
-    color: var(--text-dark);
-    display: block;
-}
-
-.lume-product-img {
+    grid-template-columns: repeat(4, 1fr); /* Katta ekranda 4 tadan joylashadi */
+    gap: 24px;
     width: 100%;
-    height: 450px;
-    background-color: #e5dec9;
-    margin-bottom: 20px;
-    transition: opacity 0.3s;
 }
 
-.lume-product-card:hover .lume-product-img {
-    opacity: 0.9;
-}
-
-.lume-product-footer {
+.uzum-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    transition: all 0.25s ease;
+    position: relative;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    text-decoration: none;
 }
 
-.lume-product-title {
-    font-family: var(--font-serif);
+.uzum-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+}
+
+.uzum-card-img-wrapper {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background-color: #e5dec9; /* Lume stilidagi rasm foni */
+    position: relative;
+}
+
+.uzum-card-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 12px;
+}
+
+.original-badge {
+    background: #ffffff;
+    color: #00b050;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.uzum-card-info {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+.uzum-card-price-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.uzum-card-current-price {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 700;
+    color: var(--text-dark);
 }
 
-.lume-product-price {
+.uzum-card-old-price {
+    font-size: 13px;
     color: var(--text-muted);
-    font-size: 14px;
+    text-decoration: line-through;
+    margin-top: -2px;
+    opacity: 0.7;
 }
 
-/* RESPONSIVE */
+.uzum-card-installment {
+    background-color: #fff500;
+    color: #1f2026;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 6px;
+    border-radius: 4px;
+    align-self: flex-start;
+}
+
+.uzum-card-title {
+    font-size: 13px;
+    color: var(--text-dark);
+    line-height: 1.4;
+    height: 36px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Eski va ba'zi brauzerlar uchun */
+    line-clamp: 2;         /* Zamonaviy standart shakli (Buni qo'shdik) */
+    -webkit-box-orient: vertical;
+    margin: 2px 0;
+    font-weight: 400;
+}
+
+.uzum-card-title strong {
+    font-weight: 600;
+}
+
+.uzum-card-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.star-icon {
+    color: #ff9900;
+    font-weight: 600;
+}
+
+.reviews-count {
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+.uzum-card-btn {
+    background-color: #7000ff; /* Uzum binafsha rangi */
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: auto;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    font-family: var(--font-sans);
+}
+
+.uzum-card-btn:hover {
+    background-color: #5e00db;
+}
+
+/* RESPONSIVE MOSLASHUVCHANLIK */
+@media (max-width: 1200px) {
+    .uzum-products-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
 @media (max-width: 1024px) {
     .lume-hero-title { font-size: 56px; }
     .lume-info-grid { grid-template-columns: 1fr; }
     .lume-info-left { border-right: none; padding-right: 0; }
     .lume-info-right { padding-left: 0; padding-top: 40px; }
-    .lume-products-grid { grid-template-columns: repeat(2, 1fr); }
+    .uzum-products-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
 }
 
 @media (max-width: 640px) {
     .lume-container { padding: 0 24px; }
     .lume-menu { display: none; }
     .lume-hero-title { font-size: 40px; }
-    .lume-products-grid { grid-template-columns: 1fr; }
+    .uzum-products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } /* Telefondada ham chiroyli 2 qator turishi uchun */
+    .uzum-card-current-price { font-size: 15px; }
+    .uzum-card-btn { font-size: 12px; padding: 8px; }
 }

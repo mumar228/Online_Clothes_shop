@@ -20,8 +20,9 @@ export const ClothesEntity = new EntitySchema({
       nullable: false,
     },
     brandcountry: {
-      type: "int",
-      nullable: false,
+      type: "varchar",
+      length: 100,
+      nullable: true,
     },
     price: {
       type: "int",

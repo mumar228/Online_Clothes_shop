@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./savat.css";
 import { Link } from "react-router-dom";
 
@@ -7,33 +7,6 @@ import { Link } from "react-router-dom";
   Onlayn kiyim-kechak do'koni uchun, tikuvchilik mavzusidagi matnlarsiz.
 */
 
-const INITIAL_ITEMS = [
-  {
-    id: "01",
-    name: "Long Wool Coat",
-    size: "M",
-    price: 890000,
-    qty: 1,
-    swatch: "linear-gradient(135deg, #4B5842 0%, #3a4433 100%)",
-  },
-  {
-    id: "02",
-    name: "Structured Blazer",
-    size: "S",
-    price: 620000,
-    qty: 1,
-    swatch: "linear-gradient(135deg, #DCD3C2 0%, #b8ab90 100%)",
-  },
-  {
-    id: "04",
-    name: "Silk Shirt",
-    size: "M",
-    price: 480000,
-    qty: 2,
-    swatch: "linear-gradient(135deg, #1C1B19 0%, #3a3833 100%)",
-  },
-];
-
 const DELIVERY_FEE = 25000;
 
 function formatSom(n) {
@@ -41,15 +14,23 @@ function formatSom(n) {
 }
 
 export default function CartPage() {
-  const [items, setItems] = useState(INITIAL_ITEMS);
+  // Statik INITIAL_ITEMS o'rniga boshlang'ich holatni localStorage'dan o'qiymiz
+  const [items, setItems] = useState(() => {
+    const savedCart = localStorage.getItem("lume-cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   const [promo, setPromo] = useState("");
+
+  // Har safar savatdagi mahsulotlar o'zgarganda localStorage'ni yangilab boramiz
+  useEffect(() => {
+    localStorage.setItem("lume-cart", JSON.stringify(items));
+  }, [items]);
 
   const updateQty = (id, delta) => {
     setItems((prev) =>
-      prev
-        .map((it) =>
-          it.id === id ? { ...it, qty: Math.max(1, it.qty + delta) } : it
-        )
+      prev.map((it) =>
+        it.id === id ? { ...it, qty: Math.max(1, (it.qty || 1) + delta) } : it
+      )
     );
   };
 
@@ -57,10 +38,11 @@ export default function CartPage() {
     setItems((prev) => prev.filter((it) => it.id !== id));
   };
 
-  const subtotal = items.reduce((sum, it) => sum + it.price * it.qty, 0);
+  // Narxlar hisob-kitobida product.price ishlatiladi (Postgres bazangizdan kelgan nom)
+  const subtotal = items.reduce((sum, it) => sum + (Number(it.price) * (it.qty || 1)), 0);
   const delivery = items.length > 0 ? DELIVERY_FEE : 0;
   const total = subtotal + delivery;
-  const itemCount = items.reduce((sum, it) => sum + it.qty, 0);
+  const itemCount = items.reduce((sum, it) => sum + (it.qty || 1), 0);
 
   return (
     <div className="atelier-cart">
@@ -120,21 +102,23 @@ export default function CartPage() {
           ) : (
             items.map((item) => (
               <div className="cart-item" key={item.id}>
-                <div className="cart-item-swatch" style={{ background: item.swatch }} />
+                {/* Rasm/swatch o'rniga rang berilgan bo'lsa ko'rinadi, bo'lmasa standart fon turadi */}
+                <div className="cart-item-swatch" style={{ background: item.swatch || "#e5dec9" }} />
                 <div className="cart-item-info">
-                  <span className="cart-item-name">{item.name}</span>
-                  <span className="cart-item-meta">O'lcham: {item.size}</span>
+                  {/* Postgres bazangizdagi 'brand' va 'about' ustunlarini kodingiz strukturasiga moslab chiqardik */}
+                  <span className="cart-item-name">{item.brand || item.name}</span>
+                  <span className="cart-item-meta">{item.about || "Lume eksklyuziv modeli"}</span>
                   <button className="cart-item-remove" onClick={() => removeItem(item.id)}>
                     O'chirish
                   </button>
                 </div>
                 <div className="cart-item-right">
-                  <span className="cart-item-price">{formatSom(item.price * item.qty)}</span>
+                  <span className="cart-item-price">{formatSom(Number(item.price) * (item.qty || 1))}</span>
                   <div className="qty-stepper">
                     <button className="qty-btn" onClick={() => updateQty(item.id, -1)}>
                       –
                     </button>
-                    <span className="qty-value">{item.qty}</span>
+                    <span className="qty-value">{item.qty || 1}</span>
                     <button className="qty-btn" onClick={() => updateQty(item.id, 1)}>
                       +
                     </button>

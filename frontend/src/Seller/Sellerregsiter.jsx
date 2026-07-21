@@ -41,6 +41,16 @@ const SellerRegister = () => {
         throw new Error(data.message || 'Roʻyxatdan oʻtishda xatolik yuz berdi');
       }
 
+      // Backend token'ni qaysi maydonda qaytarsa, o'sha yerdan olamiz.
+      // Ko'p hollarda data.token, data.data.token yoki data.sellerToken bo'ladi.
+      const token = data.data?.token || data.token || data.sellerToken;
+
+      if (!token) {
+        throw new Error('Server tokenni qaytarmadi. Backend javobini tekshiring.');
+      }
+
+      localStorage.setItem('sellerToken', token);
+
       alert("Tabriklaymiz! Do'koningiz muvaffaqiyatli ro'yxatdan o'tdi.");
       
       navigate('/Seller'); 
