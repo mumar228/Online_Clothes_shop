@@ -52,7 +52,7 @@ export default function LumeLanding() {
           <a href="#" className="lume-logo">Lume</a>
           <nav className="lume-menu-wrapper">
             <ul className="lume-menu">
-              <li><Link to="/" className="lume-menu-link">Do'kon</Link></li>
+              <li><Link to="/home" className="lume-menu-link">Do'kon</Link></li>
               <li><Link to="/about" className="lume-menu-link">Biz haqimizda</Link></li>
               <li><Link to="/Savat" className="lume-menu-link">Savat</Link></li>
               <li><Link to="/SellerRegister" className="lume-menu-link">Sotuvchilik</Link></li>

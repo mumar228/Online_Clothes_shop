@@ -51,7 +51,7 @@ export default function CartPage() {
           <nav className="lume-menu-wrapper">
             <ul className="lume-menu">
               <li>
-                <Link to="/" className="lume-menu-link">
+                <Link to="/home" className="lume-menu-link">
                   Do'kon
                 </Link>
               </li>
