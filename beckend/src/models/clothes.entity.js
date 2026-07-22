@@ -42,6 +42,11 @@ export const ClothesEntity = new EntitySchema({
       length: 150,
       nullable: true,
     },
+    image: {
+      type: "varchar",
+      length: 500,
+      nullable: true,
+    },
     createdAt: {
       type: "timestamp",
       createDate: true,

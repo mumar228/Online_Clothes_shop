@@ -20,15 +20,18 @@ export const getClothesById = async (req, res, next) => {
 
 export const createClothes = async (req, res, next) => {
   try {
-    const clothes = await clothesService.createClothes(req.body);
+    const imagePath = req.file ? `/uploads/clothes/${req.file.filename}` : null;
+    const clothes = await clothesService.createClothes(req.body, imagePath);
     res.status(201).json(clothes);
   } catch (error) {
     next(error);
   }
 };
+
 export const updateClothes = async (req, res, next) => {
   try {
-    const clothes = await clothesService.updateClothes(Number(req.params.id), req.body);
+    const imagePath = req.file ? `/uploads/clothes/${req.file.filename}` : null;
+    const clothes = await clothesService.updateClothes(Number(req.params.id), req.body, imagePath);
     res.json(clothes);
   } catch (error) {
     next(error);
@@ -43,5 +46,3 @@ export const deleteClothes = async (req, res, next) => {
     next(error);
   }
 };
-
-

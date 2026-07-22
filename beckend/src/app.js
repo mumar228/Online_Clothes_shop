@@ -5,6 +5,7 @@ import userRotes from "./routes/user.route.js";
 import ClothesRoutes from "./routes/clothes.rote.js";
 import { AppDataSource } from "./config/data-sorce.js";
 import SellerRoutes from "./routes/seller.route.js";
+import path from "path";
 
 dotenv.config();
 
@@ -14,7 +15,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Logger ENG BOSHIDA bo'lishi kerak — shunda har bir so'rov ko'rinadi
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
 app.use((req, res, next) => {
   console.log(`>>> ${req.method} ${req.url}`);
   next();

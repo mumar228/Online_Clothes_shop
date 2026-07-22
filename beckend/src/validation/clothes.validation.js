@@ -8,7 +8,6 @@ export const validateClothes = (req, res, next) => {
       "string.max": "Brend nomi 100 ta belgidan oshmasligi kerak!"
     }),
 
-    // O'lcham (M, L, XL yoki poyabzal o'lchamlari 38, 39 va h.k.)
     size: Joi.string().max(150).required().messages({
       "string.empty": "Kiyim o'lchami (size) kiritilishi shart!",
       "string.max": "O'lcham matni juda uzun (maksimal 150 belgi)!"
@@ -50,6 +49,12 @@ export const validateClothes = (req, res, next) => {
     return res.status(400).json({
       success: false,
       message: error.details[0].message,
+    });
+  }
+  if (req.method === "POST" && !req.file) {
+    return res.status(400).json({
+      success: false,
+      message: "Kiyim rasmi (image) yuklanishi shart!",
     });
   }
 

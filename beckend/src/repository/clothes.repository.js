@@ -11,8 +11,8 @@ export const findClothesById = async (id) => {
   return clothesRepo.findOneBy({ id });
 };
 
-export const createClothes = async ({ brand, size, brandcountry, price, stock,color,about }) => {
-  const clothes = clothesRepo.create({ brand, size, brandcountry, price, stock,color,about });
+export const createClothes = async ({ brand, size, brandcountry, price, stock, color, about, image }) => {
+  const clothes = clothesRepo.create({ brand, size, brandcountry, price, stock, color, about, image });
   return clothesRepo.save(clothes);
 };
 

@@ -3,13 +3,15 @@ import "./Home.css";
 import { Link } from "react-router-dom";
 import axios from "axios"; 
 
+const API = "http://localhost:3008";
+
 export default function LumeLanding() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:3008/clothes") 
+    axios.get(`${API}/clothes`) 
       .then((response) => {
         setProducts(response.data);
         setLoading(false);
@@ -109,9 +111,22 @@ export default function LumeLanding() {
                 return (
                   <div key={product.id} className="uzum-card">
                     <div className="uzum-card-img-wrapper">
-                      <div className="uzum-card-img-placeholder">
-                        <span className="original-badge">✔️ ORIGINAL</span>
-                      </div>
+                      {product.image ? (
+                        <img
+                          src={`${API}${product.image}`}
+                          alt={product.brand}
+                          className="uzum-card-img"
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      ) : (
+                        <div className="uzum-card-img-placeholder">
+                          <span className="original-badge">✔️ ORIGINAL</span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="uzum-card-info">

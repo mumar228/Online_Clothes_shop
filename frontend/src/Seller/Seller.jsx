@@ -27,6 +27,8 @@ function SellerHome() {
   const [error, setError] = useState(null);
 
   const [form, setForm] = useState(EMPTY_FORM);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
 
@@ -101,6 +103,8 @@ function SellerHome() {
     setSeller(null);
     setProducts([]);
     setForm(EMPTY_FORM);
+    setImageFile(null);
+    setImagePreview(null);
     setError(null);
     window.location.href = "/seller/login";
   };
@@ -125,6 +129,17 @@ function SellerHome() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      setImageFile(null);
+      setImagePreview(null);
+      return;
+    }
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const handleAddClothes = async (e) => {
     e.preventDefault();
     setFormError(null);
@@ -137,19 +152,31 @@ function SellerHome() {
     try {
       setSubmitting(true);
       const token = getToken();
-      const payload = {
-        ...form,
-        price: form.price ? Number(form.price) : 0,
-        stock: form.stock ? Number(form.stock) : 0,
-      };
 
-      const res = await axios.post(`${API}/seller/clothes`, payload, {
-        headers: { Authorization: `Bearer ${token}` },
+      const formData = new FormData();
+      formData.append("brand", form.brand);
+      formData.append("size", form.size);
+      formData.append("brandcountry", form.brandcountry);
+      formData.append("price", form.price ? Number(form.price) : 0);
+      formData.append("stock", form.stock ? Number(form.stock) : 0);
+      formData.append("color", form.color);
+      formData.append("about", form.about);
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
+      const res = await axios.post(`${API}/seller/clothes`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       const created = res.data?.data || res.data;
       setProducts((prev) => [created, ...prev]);
       setForm(EMPTY_FORM);
+      setImageFile(null);
+      setImagePreview(null);
     } catch (err) {
       console.error("Mahsulot qo'shishda xatolik:", err);
       setFormError(
@@ -285,12 +312,26 @@ function SellerHome() {
                       <tr key={product.id || product._id}>
                         <td>
                           <div className="product-details">
-                            <div
-                              className="product-color-box"
-                              style={{
-                                backgroundColor: product.color || "#ccc",
-                              }}
-                            />
+                            {product.image ? (
+                              <img
+                                src={`${API}${product.image}`}
+                                alt={product.brand}
+                                className="product-thumb"
+                                style={{
+                                  width: 44,
+                                  height: 44,
+                                  objectFit: "cover",
+                                  borderRadius: 8,
+                                }}
+                              />
+                            ) : (
+                              <div
+                                className="product-color-box"
+                                style={{
+                                  backgroundColor: product.color || "#ccc",
+                                }}
+                              />
+                            )}
                             <div className="product-text">
                               <span className="product-name">
                                 {product.brand}
@@ -411,6 +452,29 @@ function SellerHome() {
                       placeholder="Mahsulot haqida qisqacha"
                       rows={3}
                     />
+                  </label>
+
+                  <label className="field field-wide">
+                    <span>Rasm</span>
+                    <input
+                      type="file"
+                      name="image"
+                      accept="image/png, image/jpeg, image/webp"
+                      onChange={handleImageChange}
+                    />
+                    {imagePreview && (
+                      <img
+                        src={imagePreview}
+                        alt="Ko'rinish"
+                        style={{
+                          marginTop: 8,
+                          width: 80,
+                          height: 80,
+                          objectFit: "cover",
+                          borderRadius: 8,
+                        }}
+                      />
+                    )}
                   </label>
                 </div>
 

@@ -4,6 +4,8 @@ import { authMiddleware, adminOnly } from "../middleware/auth.middleware.js";
 import { validate } from "../middleware/validation.middleware.js";
 import { getClothes, getClothesById, createClothes, updateClothes, deleteClothes } from "../controller/clothes.controller.js";
 import { validateSellerRegister } from "../validation/seller.validatioj.js";
+import { validateClothes } from "../validation/clothes.validation.js";
+import { uploadClothesImage } from "../middleware/upload.middware.js";
 
 const router = express.Router();
 
@@ -18,8 +20,8 @@ router.post("/subscribe", authMiddleware, sellerController.activateSubscription)
 // ⚠️ /clothes route'lari /:id dan OLDIN bo'lishi SHART
 router.get("/clothes", authMiddleware, getClothes);
 router.get("/clothes/:id", authMiddleware, getClothesById);
-router.post("/clothes", authMiddleware, createClothes);
-router.put("/clothes/:id", authMiddleware, updateClothes);
+router.post("/clothes", authMiddleware, uploadClothesImage.single("image"), validateClothes, createClothes);
+router.put("/clothes/:id", authMiddleware, uploadClothesImage.single("image"), validateClothes, updateClothes);
 router.delete("/clothes/:id", authMiddleware, deleteClothes);
 
 // Admin endpointlari (dinamik /:id bo'lgani uchun eng oxirida)
