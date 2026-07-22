@@ -48,7 +48,7 @@ const AuthPage = () => {
       }
 
       alert(isLogin ? 'Tizimga muvaffaqiyatli kirdingiz!' : 'Ro\'yxatdan muvaffaqiyatli o\'tdingiz!');
-      navigate('/');
+      navigate('/home');
     } catch (err) {
       console.error('Auth xatosi:', err);
       setError(err.message || 'Server bilan bog\'lanishda xatolik');
