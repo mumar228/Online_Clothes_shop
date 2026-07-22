@@ -3,7 +3,7 @@ import "./Home.css";
 import { Link } from "react-router-dom";
 import axios from "axios"; 
 
-const API = "http://localhost:3008";
+const API = "https://online-clothes-shop.onrender.com";
 
 export default function LumeLanding() {
   const [products, setProducts] = useState([]);

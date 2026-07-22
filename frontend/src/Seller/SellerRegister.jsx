@@ -27,7 +27,7 @@ const SellerRegister = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3008/seller/register', {
+      const response = await fetch('https://online-clothes-shop.onrender.com/seller/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

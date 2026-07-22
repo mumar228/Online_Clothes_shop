@@ -40,7 +40,7 @@ export default function ProfilePage() {
       }
 
       try {
-        const res = await fetch('http://localhost:3008/user/getme', {
+        const res = await fetch('https://online-clothes-shop.onrender.com/user/getme', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

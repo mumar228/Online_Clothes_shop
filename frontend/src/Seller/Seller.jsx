@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Seller.css";
 
-const API = "http://localhost:3008";
+const API = "https://online-clothes-shop.onrender.com";
 
 function getToken() {
   let token = localStorage.getItem("sellerToken");

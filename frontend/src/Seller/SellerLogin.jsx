@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './SellerLogin.css';
 import { Link, useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://localhost:3008';
+const API_URL = 'https://online-clothes-shop.onrender.com';
 
 const SellerLogin = () => {
   const navigate = useNavigate();

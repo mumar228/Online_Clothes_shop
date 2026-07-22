@@ -4,7 +4,7 @@ import './regsiter.css';
 import { useNavigate } from 'react-router-dom';
 
 // Backend manzili — .env orqali boshqarish tavsiya etiladi (masalan REACT_APP_API_URL)
-const API_URL = 'http://localhost:3008';
+const API_URL = 'https://online-clothes-shop.onrender.com';
 
 
 // AuthPage funksiyasi ichida, eng birinchi qatorda
